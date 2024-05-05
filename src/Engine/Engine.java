@@ -1,94 +1,87 @@
 package Engine;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
-
-import Pieces.*;
 
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 
 public class Engine extends JPanel {
-    
-    public static Pieces selectPieces;
-    public static int cor = 0;
-    private Color corClara = new Color(237, 237, 208);
-    private Color corEscua = new Color(116, 150, 75);
-    public static Pieces[] board = new Pieces[64];
-    public static boolean verficacao = true;
 
-    public Engine(){
+    private Color corClara, corEscua;
+    public static Boolean start = false;
+
+    public Engine(Color corClara, Color corEscura){
+        this.corClara = corClara;
+        this.corEscua = corEscura;
+        setLayout(null);
         setPreferredSize(new Dimension(600, 600));
     }
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        for(int x = 0; x < 8; x++){
-            for(int y = 0; y < 8; y++){
-                Color paintColor = ((x - y) % 2 != 0) ? corClara : corEscua;
-                g.setColor(paintColor);
-                g.fillRect(x * 75, y * 75 , 75, 75);
-            }  
-        }  
-        
-        if(selectPieces != null && selectPieces.isSelect){
-            for (int[] paintPoints : selectPieces.drawMoves()) {
-                g.setColor(new Color(0, 155, 196));
-                int position = paintPoints[0]+paintPoints[1]*8;
+        desenharTabela(g);
+
+        if(start){
+            for (int position : Dependencias.quadradosOcupados) {
+                if(Dependencias.board[position] != null && Dependencias.board[position].selecionada){
+                    for (int pontos : Dependencias.board[position].movimentosValidos()) {
+
+                        if(Dependencias.board[position].tipo == 0 && Pieces.enPassant){
+                            int passantPosition = (Dependencias.board[position].cor == 0 ? Dependencias.board[position].movimentosValidos().getLast() - 8 : Dependencias.board[position].movimentosValidos().getLast() + 8);
+                            Dependencias.board[passantPosition].setVisible(false);
+                            g.drawImage(Dependencias.board[passantPosition].pegarImageCapturada(), (passantPosition % 8) * 75, (passantPosition / 8) * 75, 75, 75, null);
+                             
+                        }
                     
-                try{if(board[position] != null) g.setColor(new Color(255, 0, 0));} catch (Exception e) {}
-                g.fillRect(paintPoints[0]*75, paintPoints[1]*75, 75, 75);
+                        if(Dependencias.board[position].tipo == 4 && Pieces.castling){
+                            if(Dependencias.board[position - 4] != null){
+                                Boolean te = true;
+                                for(int x = position - 1; x > position - 3; x--){
+                                    if(Dependencias.board[x] != null){
+                                        te = false;
+                                    }
+                                }
+                                if(te){
+                                Dependencias.board[position - 4].setVisible(false);
+                                g.drawImage(Dependencias.board[position - 4].ImageCastling(), ((position - 4) % 8) * 75, ((position - 4) / 8) * 75, 75, 75, null);
+                                }
+                            }
+                            if (Dependencias.board[position + 3] != null){
+                                Boolean te = true;
+                                for(int x = position + 1; x < position + 2; x++){
+                                    if(Dependencias.board[x] != null){
+                                        te =false;
+                                    }
+                                }
+                                if(te){
+                                Dependencias.board[position + 3].setVisible(false);
+                                g.drawImage(Dependencias.board[position + 3].ImageCastling(), ((position + 3) % 8) * 75, ((position + 3) / 8) * 75, 75, 75, null);
+                                }
+                            }
+                            if(Dependencias.board[pontos] != null){
+                                g.drawImage(Dependencias.board[pontos].pegarImageCapturada(), (pontos % 8) * 75, (pontos / 8) * 75, 75, 75, null);
+                            } else {
+                                g.drawImage(Dependencias.pegarImagePorLink("recursos/caminho_disponivel.png"), (pontos % 8) * 75, (pontos / 8) * 75, 75, 75, null);
+                            }
+                        } else if(Dependencias.board[pontos] != null){
+                            g.drawImage(Dependencias.board[pontos].pegarImageCapturada(), (pontos % 8) * 75, (pontos / 8) * 75, 75, 75, null);
+                        } else {
+                        g.drawImage(Dependencias.pegarImagePorLink("recursos/caminho_disponivel.png"), (pontos % 8) * 75, (pontos / 8) * 75, 75, 75, null);
+                        }
+                    }
+                }
             }
         }
+        repaint();
     }
 
-    public static void fenChess(String text, JFrame game){
-        int position = 0;
-        for (char t : text.toCharArray()) {
-            switch (t) {
-                case 'p':
-                    board[position] = new Peao(position, Pieces.BRANCO);
-                    break;
-                case 'r':
-                    board[position] = new Torre(position, Pieces.BRANCO);
-                    break;
-                case 'n':
-                    board[position] = new Cavalo(position, Pieces.BRANCO);
-                    break;
-                case 'b':
-                    board[position] = new Bispo(position, Pieces.BRANCO);
-                    break;
-                case 'q':
-                    board[position] = new Rainha(position, Pieces.BRANCO);
-                    break;
-                case 'k':
-                    board[position] = new Rei(position, Pieces.BRANCO);
-                    break;
-                case 'P':
-                    board[position] = new Peao(position, Pieces.PRETO);
-                    break;
-                case 'R':
-                    board[position] = new Torre(position, Pieces.PRETO);
-                    break;
-                case 'N':
-                    board[position] = new Cavalo(position, Pieces.PRETO);
-                    break;
-                case 'B':
-                    board[position] = new Bispo(position, Pieces.PRETO);
-                    break;
-                case 'Q':
-                    board[position] = new Rainha(position, Pieces.PRETO);
-                    break;
-                case 'K':
-                    board[position] = new Rei(position, Pieces.PRETO);
-                    break;
-                default:
-                    break;
-            }
-            if(t != '/'){position++;}
-            try {position += Integer.parseInt(String.valueOf(t)) -1;} catch (Exception e) {}
-            
-        }
-        for (Pieces pieces : board) {try {game.add(pieces);} catch (Exception e) {}}
+    private void desenharTabela(Graphics g){
+        for(int quadradoX = 0; quadradoX < 8; quadradoX++){
+            for(int quadradoY = 0; quadradoY < 8; quadradoY++){
+                Color paintColor = ((quadradoX - quadradoY) % 2 != 0) ? corClara : corEscua;
+                g.setColor(paintColor);
+                g.fillRect(quadradoX * 75, quadradoY * 75 , 75, 75);
+            }  
+        }  
     }
 }
