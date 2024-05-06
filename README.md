@@ -1,19 +1,26 @@
 
-# Xadrez Java
+# ♟️ Xadrez Java
 
 Um jogo de xadrez feito a partir da biblioteca JFrame do java.
 
-## 🚧 Essa é a primeira versão ainda faltando muito conteudos mas já é possivel:
 
-* Se movimentar com as peças ;
-* Sistema de turno ;
-* Derrubar peças ;
+## 🚀 Sobre mim e o projeto
+Olá sou um desenvolvedor por contra propria e essa está sendo minha primeira tentativa de fazer um jogo completo sem tutorial, então o projeto estará sempre evoluindo com o tempo até ficar satisfeito com o estado do projeto.
 
+## 🚧 O que será adicionado?
+O projeto ainda não tá concluindo e provalvemente haverá grandes mundanças ao longo do tempo, contudo já é possivel:
+
+* movimentar e Derrubar peças
+* Sistema de turno 
+
+### Já existe alguns movimentos especiais como:
+* Movimento Castiling
+
+* Movimento En passant
 
 
 ## ❗ Futuras metas a adicionar:
 
-* Adicionar regras especificas ;
 * promoções de peças ;
 * Verificações de Movimento ilegais ;
 * IA como adversario ;
@@ -22,4 +29,12 @@ Um jogo de xadrez feito a partir da biblioteca JFrame do java.
 
 ## 🖼️ Imagens
 
-![image](https://github.com/Manoel-dev/chess_java/assets/168236909/15b2ba09-8150-4d80-9875-9f6d3bdedb44)
+![gameplay](https://github.com/Manoel-dev/chess_java/assets/168236909/0ba86ffa-ade5-414b-a645-c482fddc82ae)
+
+## ⚠️ Relacionados
+
+Link relacionados com o projeto
+
+[PIXEL ART CHESS SET](https://bzgamedev.itch.io/pixel-art-chess-set)
+
+[Chess Programming Wiki](https://www.chessprogramming.org/Main_Page)
