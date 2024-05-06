@@ -29,7 +29,7 @@ O projeto ainda não tá concluindo e provalvemente haverá grandes mundanças a
 
 ## 🖼️ Imagens
 
-https://github.com/Manoel-dev/chess_java/assets/168236909/e4976a34-bd77-4d51-975a-a788e3801633
+https://github.com/Manoel-dev/chess_java/assets/168236909/63f7e028-bd0e-4482-965d-d6da69fd70f2
 
 ## ⚠️ Relacionados
 
